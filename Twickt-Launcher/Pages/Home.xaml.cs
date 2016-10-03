@@ -2,6 +2,8 @@
 //Application idea, code and time are given by Davide Ceschia / Twickt
 //You may use them according to the GNU GPL v.3 Licence
 //GITHUB Project: https://github.com/killpowa/Twickt-Launcher
+
+/*Pagina principale del launcher, nonche' quella iniziale*/
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -39,6 +41,8 @@ namespace Twickt_Launcher.Pages
                 if (navWindow != null) navWindow.ShowsNavigationUI = false;
             }));
             transition.SelectedIndex = 0;
+            if (SessionData.isAdmin == "true")
+                welcomeadmin.Visibility = Visibility.Visible;
         }
 
         private async void Page_Loaded(object senderx, RoutedEventArgs ee)

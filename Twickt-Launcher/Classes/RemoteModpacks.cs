@@ -2,6 +2,8 @@
 //Application idea, code and time are given by Davide Ceschia / Twickt
 //You may use them according to the GNU GPL v.3 Licence
 //GITHUB Project: https://github.com/killpowa/Twickt-Launcher
+
+/*Gestisce il download delle mods dei pacchetti*/
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,20 +19,21 @@ namespace Twickt_Launcher.Classes
     class RemoteModpacks
     {
         public static Dictionary<string, string> description = new Dictionary<string, string>();
-        public static async Task<string> GetModpacksList()
+        public static async Task<string> GetModpacksList(string type)
         {
-            var result = await Task.Run(() => RefreshRemote());
+            var result = await Task.Run(() => RefreshRemote(type));
             Window1.singleton.MenuToggleButton.IsChecked = false;
             return result;
         }
 
-        private static async Task<string> RefreshRemote()
+        private static async Task<string> RefreshRemote(string type)
         {
             try
             {
                 var client = new WebClient();
                 var values = new System.Collections.Specialized.NameValueCollection();
                 values["target"] = "generic";
+                values["type"] = type;
 
                 var response = await client.UploadValuesTaskAsync(config.modpacksWebService, values);
 
@@ -40,7 +43,6 @@ namespace Twickt_Launcher.Classes
                     return responseString;
                 else
                 {
-                    MessageBox.Show(Pages.SplashScreen.singleton.manager.GetString("couldNotGetModpacksList"));
                     return null;
                 }
 
